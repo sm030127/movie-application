@@ -1,0 +1,29 @@
+.ratings-container {
+  margin: 20px;
+  height: 100vh;
+}
+
+.ratings-header {
+  display: flex;
+  padding: 20px;
+  background-color: #bbc4cc;
+}
+
+.ratings-header div {
+  width: 50%;
+}
+
+.ratings-items {
+  display: flex;
+  padding: 20px;
+  border: solid 1px #bbc4cc;
+}
+
+.ratings-items div {
+  width: 50%;
+}
+
+.outer-container {
+  display: flex;
+  justify-content: center;
+}
