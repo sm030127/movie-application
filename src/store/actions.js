@@ -1,4 +1,4 @@
-import { getSessionId, onTermSubmit, fetchMovieAPI, onMoviePost, getMovieRating } from '../apis';
+import { getSessionId, onTermSubmit, fetchMovieAPI, onMoviePost, getMovieRating, getCredits } from '../apis';
 
 const fetchSessionId = 'FETCH_SESSIONID';
 const submitRaiting = 'SUBMIT_RAITING';
@@ -6,6 +6,7 @@ const searchMovie = 'SEARCH_MOVIE';
 const fetchMovie = 'FETCH_MOVIE';
 const selectMovie = 'SELECT_MOVIE';
 const fetchRating = 'FETCH_RAITING';
+const fetchCredits = 'FETCH_CREDITS';
 
 export const actions = {
 	fetchSessionId,
@@ -14,6 +15,7 @@ export const actions = {
 	fetchMovie,
 	selectMovie,
 	fetchRating,
+	fetchCredits,
 };
 
 export const actionCreators = {
@@ -37,5 +39,9 @@ export const actionCreators = {
 	MovieRating: sessionid => ({
 		type: actions.fetchRating,
 		payload: getMovieRating(sessionid),
+	}),
+	fetchCredits: movieId => ({
+		type: actions.fetchCredits,
+		payload: getCredits(movieId),
 	}),
 };

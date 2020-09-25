@@ -8,6 +8,7 @@ const initialState = {
 	myRatingsList: [],
 	Sessionid: localStorage.getItem('sessionId') || '',
 	ratingMessage: '',
+	credits: [],
 };
 
 const movieReducer = (state = initialState, action) => {
@@ -27,6 +28,9 @@ const movieReducer = (state = initialState, action) => {
 			return Object.assign({}, state, { selectedMovie: action.payload.data });
 		case actions.fetchRating + '_FULFILLED':
 			return Object.assign({}, state, { myRatingsList: action.payload.data.results });
+		case actions.fetchCredits + '_FULFILLED':
+			console.log('from credits');
+			return { ...state, credits: action.payload.cast };
 		default:
 			return state;
 	}

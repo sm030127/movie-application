@@ -14,3 +14,7 @@ export const onMoviePost = (movieId, value, sessionid) =>
 	});
 export const getMovieRating = sessionid =>
 	axios.get(`${url}guest_session/${sessionid}/rated/movies?api_key=${api_key}&language=en-US&sort_by=created_at.asc`);
+
+export const getCredits = movieId => {
+	axios.get(`${url}movie/${movieId}/credits?api_key=${api_key}`);
+};

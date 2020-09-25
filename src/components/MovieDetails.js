@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import { Link, withRouter } from 'react-router-dom';
 import './css/MovieDetails.css';
 
@@ -9,10 +10,17 @@ import { actionCreators } from '../store/actions';
 const movie_url = 'https://image.tmdb.org/t/p/w185';
 
 class MovieDetails extends React.Component {
-	state = { rating: '', movie: '', error: false };
-	componentDidMount() {
+	state = { rating: '', movie: '', error: false, casts: [] };
+	async componentDidMount() {
 		console.log(this.props, 'props of movie details');
 		this.props.fetchMovie(this.props.match.params.movieId);
+		const api_key = '21dfd76ee363f31fc88ea75f5793b914';
+		const url = 'https://api.themoviedb.org/3/';
+		const data = await axios.get(`${url}movie/${this.props.match.params.movieId}/credits?api_key=${api_key}`);
+		const credits = data.data.cast;
+		const TopThreeActors = credits.slice(0, 3);
+		this.setState({ casts: TopThreeActors }, () => console.log('casts of state', this.state));
+		console.log(TopThreeActors);
 	}
 	onInputChange = event => {
 		this.setState({
@@ -36,6 +44,13 @@ class MovieDetails extends React.Component {
 			});
 			this.props.onMoviePost(this.props.movie.id, this.state.rating, sessionId);
 		}
+	};
+	renderCredits = () => {
+		return this.state.casts.map(cast => (
+			<div>
+				<Link>{cast.character}</Link>
+			</div>
+		));
 	};
 	render() {
 		return (
@@ -77,18 +92,23 @@ class MovieDetails extends React.Component {
 							</div>
 						</div>
 					</form>
+					<div>
+						Credits
+						{this.renderCredits()}
+					</div>
 				</div>
 			</div>
 		);
 	}
 }
-const mapStateToProps = state => ({ movie: state.movieReducer.selectedMovie });
+const mapStateToProps = state => ({ movie: state.movieReducer.selectedMovie, credits: state.movieReducer.credits });
 
 const mapDispatchToProps = dispatch =>
 	bindActionCreators(
 		{
 			fetchMovie: actionCreators.fetchMovie,
 			onMoviePost: actionCreators.onMoviePost,
+			fetchCredits: actionCreators.fetchCredits,
 		},
 		dispatch
 	);
